@@ -170,9 +170,8 @@ float BME280::readFloatPressure( void )
 	var1 = (((int64_t)calibration.dig_P9) * (p_acc>>13) * (p_acc>>13)) >> 25;
 	var2 = (((int64_t)calibration.dig_P8) * p_acc) >> 19;
 	p_acc = ((p_acc + var1 + var2) >> 8) + (((int64_t)calibration.dig_P7)<<4);
-
-	p_acc = p_acc >> 8; // /256
-	return (float)p_acc;
+	
+	return (float)p_acc / 256.0;
 
 }
 
@@ -215,7 +214,7 @@ float BME280::readFloatHumidity( void )
 	var1 = (var1 < 0 ? 0 : var1);
 	var1 = (var1 > 419430400 ? 419430400 : var1);
 
-	return (float)((var1>>12) >> 10);
+	return (float)(var1>>12) / 1024.0;
 
 }
 
